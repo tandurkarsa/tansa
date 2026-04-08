@@ -11,26 +11,57 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;   /* hilangkan scrollbar */
             background: black;
+            overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif;
         }
+
         .intro-container {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: black;
-        }
-        video {
             width: 100%;
             height: 100%;
-            object-fit: cover;  /* video memenuhi layar, mungkin terpotong sedikit */
-               display: block;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+        /* Video asli (tidak terpotong, proporsional) */
+        #introVideo {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            z-index: 2;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        /* Background blur (video duplikat) */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 1;
+            overflow: hidden;
+            filter: blur(20px) brightness(0.7);
+            transform: scale(1.1);
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .skip-btn {
             position: absolute;
             bottom: 20px;
@@ -44,125 +75,97 @@
             font-size: 0.8rem;
             cursor: pointer;
             backdrop-filter: blur(4px);
-            transition: background 0.2s;
+            z-index: 3;
+            transition: 0.2s;
         }
+
         .skip-btn:hover {
-            background: rgba(250,204,21,0.8);
+            background: #facc15;
             color: #0f172a;
-        }
-        /* Fallback jika video tidak bisa diputar */
-        .fallback {
-            text-align: center;
-            padding: 2rem;
-            color: white;
         }
     </style>
 </head>
 <body>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<div class="intro-container">
+    <div class="video-background" id="videoBg"></div>
+    <video id="introVideo" autoplay muted playsinline>
+        <source src="assets/intro.webm" type="video/webm">
+        <!-- Fallback: jika video tidak bisa diputar -->
+        <p>Browser Anda tidak mendukung video HTML5.</p>
+    </video>
+    <button class="skip-btn" id="skipBtn">Skip →</button>
+</div>
 
-body {
-    background: black;
-    overflow: hidden;
-    font-family: 'Space Grotesk', sans-serif;
-}
-
-.intro-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Video asli (tidak terpotong, proporsional) */
-#introVideo {
-    position: relative;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain; /* atau scale-down, sama saja */
-    z-index: 2;
-    border-radius: 0; /* opsional, kalau mau pinggiran halus */
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
-}
-
-/* Background blur (video duplikat) */
-.video-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    z-index: 1;
-    overflow: hidden;
-    filter: blur(20px) brightness(0.7);
-    transform: scale(1.1); /* sedikit zoom agar tidak ada batas blur yang kelihatan */
-}
-
-/* Elemen video di dalam background blur */
-.video-background video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.skip-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-family: inherit;
-    font-size: 0.8rem;
-    cursor: pointer;
-    backdrop-filter: blur(4px);
-    z-index: 3;
-    transition: 0.2s;
-}
-
-.skip-btn:hover {
-    background: #facc15;
-    color: #0f172a;
-}
-
-    <script>
+<script>
+    (function() {
         const video = document.getElementById('introVideo');
-        const skipBtn = document.getElementById('skipBtn');
+        const bgContainer = document.getElementById('videoBg');
+        let bgVideo = null;
 
         // Fungsi redirect ke halaman utama
         function goToMain() {
-            window.location.href = "home.html";
+            window.location.href = "home/"; // sesuaikan dengan folder home Anda
         }
 
-        // Ketika video selesai, otomatis redirect
+        // Jika video gagal dimuat atau error, langsung redirect
+        if (!video) return;
+
+        // Buat elemen video untuk background blur (sumber sama)
+        bgVideo = document.createElement('video');
+        bgVideo.autoplay = true;
+        bgVideo.muted = true;
+        bgVideo.loop = true;
+        bgVideo.playsInline = true;
+        bgVideo.style.width = '100%';
+        bgVideo.style.height = '100%';
+        bgVideo.style.objectFit = 'cover';
+
+        // Ambil sumber dari video utama
+        const sourceElem = video.querySelector('source');
+        if (sourceElem && sourceElem.src) {
+            bgVideo.src = sourceElem.src;
+        } else {
+            // fallback: jika video utama tidak punya source, coba pakai video.src
+            bgVideo.src = video.src || 'assets/intro.mp4';
+        }
+
+        bgContainer.appendChild(bgVideo);
+
+        // Sinkronisasi play/pause dan currentTime
+        video.addEventListener('play', () => {
+            if (bgVideo) bgVideo.play();
+        });
+        video.addEventListener('pause', () => {
+            if (bgVideo) bgVideo.pause();
+        });
+        video.addEventListener('seeked', () => {
+            if (bgVideo && !isNaN(video.currentTime)) {
+                bgVideo.currentTime = video.currentTime;
+            }
+        });
+
+        // Saat video utama selesai, redirect
         video.addEventListener('ended', goToMain);
 
-        // Skip button
-        skipBtn.addEventListener('click', goToMain);
+        // Tombol skip
+        const skipBtn = document.getElementById('skipBtn');
+        if (skipBtn) skipBtn.addEventListener('click', goToMain);
 
-        // Jika video gagal diputar (error), langsung redirect
+        // Jika video gagal diputar (error), tetap redirect
         video.addEventListener('error', goToMain);
 
-        // Pastikan video mulai (autoplay kadang diblokir mobile)
+        // Coba play video utama (autoplay mungkin diblokir di beberapa browser)
         video.play().catch(e => {
-            console.log("Autoplay diblokir, tampilkan fallback atau redirect?");
-            // Bisa langsung redirect atau tampilkan tombol manual
-            // Di sini kita tampilkan tombol skip lebih jelas
+            console.log("Autoplay diblokir, tetap lanjutkan ke halaman utama?");
+            // Opsional: biarkan tombol skip yang bekerja, atau redirect otomatis
+            // Di sini kita tidak paksa redirect, biarkan user klik skip
         });
-    </script>
+
+        // Background video juga dicoba play
+        if (bgVideo) {
+            bgVideo.play().catch(e => console.log("Background autoplay diblokir"));
+        }
+    })();
+</script>
 </body>
 </html>
