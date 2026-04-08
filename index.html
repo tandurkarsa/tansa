@@ -2,102 +2,94 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TANSA Studio | Tandur Karsa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Sambutan · Tandur Karsa</title>
     <style>
-        /* Desain Dasar: Tema Premium (Hijau Gelap & Emas) */
-        body {
+        * {
             margin: 0;
-            background-color: #0F2E1D; /* Deep Forest Green */
-            color: #F5F0E6; /* Putih Gading */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Mengunci scroll saat video main */
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        /* Kontainer Video Intro */
-        #intro-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        body {
+            background: #0b0f17;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .intro-container {
+            position: relative;
             width: 100%;
-            height: 100vh;
-            z-index: 99;
-            background: #000;
+            max-width: 1000px;
+            margin: auto;
+            background: black;
         }
-
         video {
             width: 100%;
-            height: 100%;
-            object-fit: cover; /* Biar video memenuhi layar tanpa gepeng */
+            height: auto;
+            display: block;
         }
-
-        /* Konten Utama (Disembunyikan di awal) */
-        #main-content {
-            display: none;
-            padding: 50px 20px;
+        .skip-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s;
+        }
+        .skip-btn:hover {
+            background: rgba(250,204,21,0.8);
+            color: #0f172a;
+        }
+        /* Fallback jika video tidak bisa diputar */
+        .fallback {
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Animasi Transisi Halus */
-        .fade-in {
-            animation: fadeIn 2s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Desain Tombol Premium */
-        .link-btn {
-            display: inline-block;
-            margin: 10px;
-            padding: 12px 25px;
-            background-color: #C6A84B; /* Warm Gold */
-            color: #0F2E1D;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .link-btn:hover {
-            background-color: #F5F0E6;
-            transform: translateY(-3px);
+            padding: 2rem;
+            color: white;
         }
     </style>
 </head>
 <body>
-
-    <div id="intro-container">
+    <div class="intro-container">
         <video id="introVideo" autoplay muted playsinline>
-            <source src="tansaintro.webm" type="video/webm">
+            <source src="assets/intro.webm" type="video/webm">
+            <!-- fallback: jika video gagal, tampilkan teks -->
+            Your browser does not support the video tag.
         </video>
-    </div>
-
-    <div id="main-content" class="fade-in">
-        <h1>TANSA Studio</h1>
-        <p><em>Menanam Gagasan, Menuai Semesta.</em></p>
-        <hr style="border-color: #C6A84B; margin: 30px 0;">
-        
-        <h2>Karya Kami</h2>
-        <p>Trailer | Work In Progress (WIP) | Karya Terbaik</p>
-        <br>
-        
-        <a href="LINK_YOUTUBE_KAMU_DI_SINI" class="link-btn" target="_blank">YouTube</a>
-        <a href="LINK_INSTAGRAM_KAMU_DI_SINI" class="link-btn" target="_blank">Instagram</a>
+        <button class="skip-btn" id="skipBtn">Skip →</button>
     </div>
 
     <script>
         const video = document.getElementById('introVideo');
-        const introContainer = document.getElementById('intro-container');
-        const mainContent = document.getElementById('main-content');
+        const skipBtn = document.getElementById('skipBtn');
 
-        // Logika: Saat video selesai (ended), sembunyikan video dan tampilkan menu
-        video.addEventListener('ended', () => {
-            introContainer.style.display = 'none'; // Hilangkan video
-            mainContent.style.display = 'block';   // Munculkan menu
-            document.body.style.overflow = 'auto'; // Buka kunci scroll
+        // Fungsi redirect ke halaman utama
+        function goToMain() {
+            window.location.href = "tandur-karsa.html";
+        }
+
+        // Ketika video selesai, otomatis redirect
+        video.addEventListener('ended', goToMain);
+
+        // Skip button
+        skipBtn.addEventListener('click', goToMain);
+
+        // Jika video gagal diputar (error), langsung redirect
+        video.addEventListener('error', goToMain);
+
+        // Pastikan video mulai (autoplay kadang diblokir mobile)
+        video.play().catch(e => {
+            console.log("Autoplay diblokir, tampilkan fallback atau redirect?");
+            // Bisa langsung redirect atau tampilkan tombol manual
+            // Di sini kita tampilkan tombol skip lebih jelas
         });
     </script>
 </body>
