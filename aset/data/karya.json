@@ -1,0 +1,23 @@
+[
+  {
+    "judul": "Tertangkap",
+    "badge": "✔️ Rilis 2024",
+    "deskripsi": "Animasi pendek misteri, peningkatan signifikan.",
+    "gif": "../aset/gif/tertangkap.gif",
+    "link": "#"
+  },
+  {
+    "judul": "Gak Fokus",
+    "badge": "✔️ Rilis 2023",
+    "deskripsi": "Animasi pertama, fondasi awal perjalanan.",
+    "gif": "../aset/gif/gakfokus.gif",
+    "link": "#"
+  },
+  {
+    "judul": "Proyek Rahasia",
+    "badge": "⏳ Mendatang",
+    "deskripsi": "Akan segera hadir.",
+    "gif": "../aset/gif/comingsoon.gif",
+    "link": "#"
+  }
+]

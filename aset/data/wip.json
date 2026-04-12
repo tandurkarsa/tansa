@@ -1,0 +1,20 @@
+[
+  {
+    "title": "A.A.R.I.A",
+    "status": "🚧 Produksi Awal (35%)",
+    "desc": "Proyek animasi terbesar. \"Rasa sakit yang tak bisa dimengerti... apakah aku warisan dari sebuah dendam?\"",
+    "badge": "Prioritas Utama"
+  },
+  {
+    "title": "Project Chimera",
+    "status": "📝 Penulisan Naskah (60%)",
+    "desc": "Cerita fiksi ilmiah tentang eksperimen genetik. \"Mereka menciptakan kami, lalu mereka takut.\"",
+    "badge": "Fiksi Ilmiah"
+  },
+  {
+    "title": "Tertangkap 2",
+    "status": "🎬 Pra-produksi (20%)",
+    "desc": "Sekuel animasi 'Tertangkap'. Misteri semakin dalam.",
+    "badge": "Animasi Pendek"
+  }
+]

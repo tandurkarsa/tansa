@@ -322,113 +322,104 @@
         <small id="modalStatus">Status: Dalam Pengembangan</small>
     </div>
 </div>
-
 <!-- ========== SCRIPTS ========== -->
 <!-- Counter -->
 <script src="../aset/js/counter.js"></script>
-<!-- WIP Data & Popup Logic -->
-<script>
-    // ========== DATA WORK IN PROGRESS ==========
-    // Kamu bisa edit daftar ini kapan saja. Nanti bisa juga diambil dari CMS.
-    const wipProjects = [
-        {
-            title: "A.A.R.I.A",
-            status: "🚧 Produksi Awal",
-            desc: "Proyek animasi terbesar. Akan menjadi fondasi sejarah karakter Stepe Diamond. \"Rasa sakit yang tak bisa dimengerti... apakah aku warisan dari sebuah dendam?\"",
-            badge: "Prioritas Utama"
-        },
-        {
-            title: "Project Chimera",
-            status: "📝 Penulisan Naskah",
-            desc: "Cerita fiksi ilmiah tentang eksperimen genetik yang lepas kendali. \"Mereka menciptakan kami, lalu mereka takut pada ciptaan mereka sendiri.\"",
-            badge: "Fiksi Ilmiah"
-        },
-        {
-            title: "Tertangkap 2",
-            status: "🎬 Pra-produksi",
-            desc: "Sekuel dari animasi 'Tertangkap'. Misteri semakin dalam. Akan hadir dengan twist baru.",
-            badge: "Animasi Pendek"
-        },
-        {
-            title: "Minecraft: The Forgotten Realm",
-            status: "🌍 Building World",
-            desc: "Serial animasi Minecraft dengan world building masif. Menceritakan petualangan di dunia yang terlupakan.",
-            badge: "Serial"
-        },
-        {
-            title: "Kumpulan Cerpen",
-            status: "✍️ Drafting",
-            desc: "Antologi cerita pendek fiksi ilmiah. Rencana rilis dalam bentuk e-book.",
-            badge: "Literasi"
-        },
-        {
-            title: "Soundtrack Original",
-            status: "🎵 Komposisi",
-            desc: "Musik orisinal untuk mengiringi animasi A.A.R.I.A. Kolaborasi dengan musisi lokal.",
-            badge: "Audio"
-        },
-        {
-            title: "Website Interaktif",
-            status: "💻 Pengembangan",
-            desc: "Fitur interaktif untuk pengunjung website Tandur Karsa. (Termasuk halaman ini!)",
-            badge: "Web Dev"
-        }
-    ];
 
-    // Render slider
-    const slider = document.getElementById('wipSlider');
-    function renderWip() {
-        let html = '';
-        wipProjects.forEach((proj, index) => {
-            html += `
-                <div class="wip-card" data-index="${index}">
-                    <div class="wip-badge">${proj.badge || 'WIP'}</div>
-                    <h3 class="wip-title">${proj.title}</h3>
-                    <p class="wip-status">${proj.status}</p>
-                    <p style="font-size:0.8rem; margin-top:1rem; color:#a0b3d9;">🔍 Klik untuk cuplikan</p>
-                </div>
-            `;
+<!-- Fetch Konten Dinamis -->
+<script>
+    // ========== AMBIL DATA VIDEO ==========
+    fetch('../aset/data/video.json')
+        .then(res => res.json())
+        .then(data => {
+            // Update trailer A.A.R.I.A
+            const trailerFrame = document.querySelector('.video-wrapper iframe');
+            if (trailerFrame) {
+                trailerFrame.src = `https://www.youtube.com/embed/${data.trailer}`;
+            }
+            // Update video sambutan
+            const sambutanFrame = document.querySelectorAll('.video-wrapper iframe')[1];
+            if (sambutanFrame) {
+                sambutanFrame.src = `https://www.youtube.com/embed/${data.sambutan}`;
+            }
+        })
+        .catch(err => console.error('Gagal load video.json:', err));
+
+    // ========== AMBIL DATA KARYA ==========
+    fetch('../aset/data/karya.json')
+        .then(res => res.json())
+        .then(data => {
+            const karyaContainer = document.querySelector('.karya-grid');
+            if (!karyaContainer) return;
+            let html = '';
+            data.forEach(item => {
+                html += `
+                    <div class="karya-card">
+                        <div class="karya-gif">
+                            <img src="${item.gif}" alt="${item.judul}">
+                        </div>
+                        <span class="badge">${item.badge}</span>
+                        <h3 style="margin:0.5rem 0 0.3rem;">${item.judul}</h3>
+                        <p style="font-size:0.9rem; color:#94a3b8;">${item.deskripsi}</p>
+                    </div>
+                `;
+            });
+            karyaContainer.innerHTML = html;
+        })
+        .catch(err => console.error('Gagal load karya.json:', err));
+
+    // ========== AMBIL DATA WIP ==========
+    fetch('../aset/data/wip.json')
+        .then(res => res.json())
+        .then(data => {
+            const slider = document.getElementById('wipSlider');
+            if (!slider) return;
+            let html = '';
+            data.forEach((proj, index) => {
+                html += `
+                    <div class="wip-card" data-index="${index}">
+                        <div class="wip-badge">${proj.badge || 'WIP'}</div>
+                        <h3 class="wip-title">${proj.title}</h3>
+                        <p class="wip-status">${proj.status}</p>
+                        <p style="font-size:0.8rem; margin-top:1rem; color:#a0b3d9;">🔍 Klik untuk cuplikan</p>
+                    </div>
+                `;
+            });
+            slider.innerHTML = html;
+            
+            // Pasang ulang event listener untuk modal
+            attachWipModalEvents(data);
+        })
+        .catch(err => console.error('Gagal load wip.json:', err));
+
+    // ========== MODAL POPUP (dipanggil setelah WIP dimuat) ==========
+    function attachWipModalEvents(wipData) {
+        const modal = document.getElementById('wipModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalStatus = document.getElementById('modalStatus');
+        const closeModal = document.getElementById('closeModal');
+        const slider = document.getElementById('wipSlider');
+
+        slider.addEventListener('click', (e) => {
+            const card = e.target.closest('.wip-card');
+            if (!card) return;
+            const index = card.dataset.index;
+            const proj = wipData[index];
+            modalTitle.textContent = proj.title;
+            modalDesc.textContent = proj.desc;
+            modalStatus.textContent = `Status: ${proj.status}`;
+            modal.classList.add('active');
         });
-        slider.innerHTML = html;
+
+        closeModal.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
     }
-    renderWip();
 
-    // ========== MODAL POPUP ==========
-    const modal = document.getElementById('wipModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalStatus = document.getElementById('modalStatus');
-    const closeModal = document.getElementById('closeModal');
-
-    // Event delegation untuk klik kartu WIP
-    slider.addEventListener('click', (e) => {
-        const card = e.target.closest('.wip-card');
-        if (!card) return;
-        const index = card.dataset.index;
-        const proj = wipProjects[index];
-        modalTitle.textContent = proj.title;
-        modalDesc.textContent = proj.desc;
-        modalStatus.textContent = `Status: ${proj.status}`;
-        modal.classList.add('active');
-    });
-
-    // Tutup modal
-    closeModal.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
-    });
-
-    // ========== COUNTER SUDAH ADA DI counter.js ==========
-    // Pastikan counter.js berisi fungsi yang mengupdate #visitor-counter
+    // ========== COUNTER (dari counter.js) ==========
+    // Pastikan counter.js sudah memuat fungsi updateCounter()
 </script>
-
-<!-- (Opsional) Script Video Terbaru jika ingin ditambahkan -->
-<!-- 
-<script>
-    // Fetch RSS YouTube jika kamu ingin menampilkan video terbaru di atas Karya
-    // Pastikan mengganti CHANNEL_ID dengan yang benar
-    async function fetchLatestVideos() { ... }
-</script>
--->
 </body>
 </html>

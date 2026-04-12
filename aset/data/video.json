@@ -1,0 +1,20 @@
+[
+  {
+    "title": "A.A.R.I.A",
+    "status": "🚧 Produksi Awal",
+    "desc": "Proyek animasi terbesar. Akan menjadi fondasi sejarah karakter Stepe Diamond. \"Rasa sakit yang tak bisa dimengerti... apakah aku warisan dari sebuah dendam?\"",
+    "badge": "Prioritas Utama"
+  },
+  {
+    "title": "Project Chimera",
+    "status": "📝 Penulisan Naskah",
+    "desc": "Cerita fiksi ilmiah tentang eksperimen genetik yang lepas kendali. \"Mereka menciptakan kami, lalu mereka takut pada ciptaan mereka sendiri.\"",
+    "badge": "Fiksi Ilmiah"
+  },
+  {
+    "title": "Tertangkap 2",
+    "status": "🎬 Pra-produksi",
+    "desc": "Sekuel dari animasi 'Tertangkap'. Misteri semakin dalam. Akan hadir dengan twist baru.",
+    "badge": "Animasi Pendek"
+  }
+]
