@@ -4,215 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tandur Karsa · Menanam Karya</title>
-    <link rel="icon" type="image/x-icon" href="../aset/favicon-steped.ico"> <!-- ganti dengan file favicon Anda -->
+    <link rel="icon" type="image/x-icon" href="../aset/favicon-steped.ico">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../aset/css/counter.css"> <!-- Buat nanti styling -->
+    <!-- Splide CSS (Carousel) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <link rel="stylesheet" href="../aset/css/counter.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: #0f141f;
-            color: #eef2ff;
-            line-height: 1.5;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.8rem;
-        }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 0;
-            flex-wrap: wrap;
-            border-bottom: 1px solid #2d3a4e;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: #2c3e66;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.6rem;
-            color: white;
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #375FE5;
-        }
-        .logo-text h1 {
-            font-size: 1.4rem;
-            letter-spacing: -0.5px;
-        }
-        .logo-text p {
-            font-size: 0.7rem;
-            color: #a0b3d9;
-        }
-        .nav-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            margin-left: 1.5rem;
-            transition: color 0.2s;
-        }
+        /* ========== GLOBAL STYLE (SAMA SEPERTI SEBELUMNYA) ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Space Grotesk', sans-serif; background: #0f141f; color: #eef2ff; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.8rem; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; flex-wrap: wrap; border-bottom: 1px solid #2d3a4e; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo img { width: 48px; height: 48px; border-radius: 50%; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #375FE5; }
+        .logo-text h1 { font-size: 1.4rem; letter-spacing: -0.5px; }
+        .logo-text p { font-size: 0.7rem; color: #a0b3d9; }
+        .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-links a { color: #cbd5e1; text-decoration: none; transition: color 0.2s; }
         .nav-links a:hover { color: #facc15; }
+        .traktir-btn { background: #facc15; color: #0f141f !important; padding: 0.4rem 1rem; border-radius: 40px; font-weight: 600; font-size: 0.9rem; }
+        .traktir-btn:hover { background: #eab308; transform: translateY(-2px); }
 
-        .hero {
-            text-align: center;
-            padding: 3rem 0 2rem;
-        }
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #a0b3d9, #facc15);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -2px;
-        }
-        .hero-sub {
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            margin-top: -0.5rem;
-        }
-        .hero-sub span {
-            color: #facc15;
-            font-weight: 600;
-        }
-        .tagline {
-            font-size: 1.8rem;
-            font-weight: 500;
-            margin: 1.5rem 0 0.5rem;
-        }
-        .deskripsi {
-            max-width: 650px;
-            margin: 1rem auto;
-            color: #94a3b8;
-            font-size: 1rem;
-        }
-        .filosofi {
-            background: #1e2a3a;
-            border-radius: 2rem;
-            padding: 0.6rem 1.5rem;
-            display: inline-block;
-            margin-top: 0.5rem;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin: 3rem 0 1.5rem;
-            border-left: 5px solid #375FE5;
-            padding-left: 1rem;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
-            gap: 1.8rem;
-        }
-        .project-card {
-            background: #1a2533;
-            border-radius: 1.2rem;
-            padding: 1.2rem;
-            transition: all 0.2s;
-            border: 1px solid #2d3a4e;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: #375FE5;
-            box-shadow: 0 12px 20px -10px rgba(0,0,0,0.4);
-        }
-        .gif-placeholder {
-            width: 100%;
-            height: 140px;
-            background: #0f141f;
-            border-radius: 0.8rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #5b6e8c;
-            font-size: 0.8rem;
-            overflow: hidden;
-        }
-        .gif-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .badge {
-            background: #375FE522;
-            color: #8aafff;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.7rem;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 0.8rem;
-        }
-        .wip {
-            background: #facc1522;
-            color: #facc15;
-        }
-        .trailer-embed {
-            margin-top: 1rem;
-            border-radius: 1rem;
-            overflow: hidden;
-        }
-        .trailer-embed iframe {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border: none;
-        }
-        .story-box {
-            background: linear-gradient(145deg, #0f172a, #0b1018);
-            border-radius: 2rem;
-            padding: 2rem;
-            margin: 2rem 0;
-            border-left: 4px solid #facc15;
-            font-style: italic;
-            transition: transform 0.2s;
-        }
-        .story-box:hover {
-            transform: translateX(6px);
-        }
-        .social-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-        .social-links a {
-            background: #1e2a3a;
-            color: #cbd5e1;
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .social-links a:hover {
-            background: #375FE5;
-            color: white;
-            transform: translateY(-3px);
-        }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid #1e2a3a;
-            margin-top: 3rem;
-            font-size: 0.8rem;
-        }
+        .hero { text-align: center; padding: 3rem 0 2rem; }
+        .hero h1 { font-size: 5rem; font-weight: 800; background: linear-gradient(135deg, #ffffff, #a0b3d9, #facc15); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -2px; }
+        .hero-sub { font-size: 1.2rem; color: #cbd5e1; margin-top: -0.5rem; }
+        .hero-sub span { color: #facc15; font-weight: 600; }
+        .tagline { font-size: 1.8rem; font-weight: 500; margin: 1.5rem 0 0.5rem; }
+        .deskripsi { max-width: 650px; margin: 1rem auto; color: #94a3b8; }
+        .filosofi { background: #1e2a3a; border-radius: 2rem; padding: 0.6rem 1.5rem; display: inline-block; margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem; }
+
+        .section-title { font-size: 1.8rem; font-weight: 600; margin: 3rem 0 1.5rem; border-left: 5px solid #375FE5; padding-left: 1rem; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.8rem; }
+        .project-card { background: #1a2533; border-radius: 1.2rem; padding: 1.2rem; transition: all 0.2s; border: 1px solid #2d3a4e; }
+        .project-card:hover { transform: translateY(-5px); border-color: #375FE5; }
+        .gif-placeholder { width: 100%; height: 140px; background: #0f141f; border-radius: 0.8rem; margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .gif-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+        .badge { background: #375FE522; color: #8aafff; font-size: 0.7rem; padding: 0.2rem 0.7rem; border-radius: 20px; display: inline-block; margin-bottom: 0.8rem; }
+        .wip-badge { background: #facc1522; color: #facc15; }
+        .trailer-embed { margin-top: 1rem; border-radius: 1rem; overflow: hidden; }
+        .trailer-embed iframe { width: 100%; aspect-ratio: 16 / 9; border: none; }
+
+        .social-links { display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center; margin: 2rem 0; }
+        .social-links a { background: #1e2a3a; color: #cbd5e1; padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none; transition: all 0.2s; }
+        .social-links a:hover { background: #375FE5; color: white; transform: translateY(-3px); }
+
+        footer { text-align: center; padding: 2rem; border-top: 1px solid #1e2a3a; margin-top: 3rem; font-size: 0.8rem; }
+
+        /* ========== STYLE KHUSUS CAROUSEL (SPLIDE) ========== */
+        .splide__slide { display: flex; justify-content: center; }
+        .wip-card { background: #1a2533; border-radius: 1.2rem; padding: 1.2rem; border: 1px solid #2d3a4e; height: 100%; display: flex; flex-direction: column; cursor: pointer; transition: all 0.2s; }
+        .wip-card:hover { border-color: #facc15; transform: scale(1.02); }
+        .wip-card h3 { margin-bottom: 0.5rem; }
+        .wip-card p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem; flex-grow: 1; }
+        .wip-card .read-more { color: #facc15; font-weight: 500; text-align: right; }
+
+        /* ========== STYLE KHUSUS MODAL (MICROMODAL) ========== */
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; }
+        .modal.is-open { display: block; }
+        .modal__overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; }
+        .modal__container { background: #1e2a3a; padding: 2rem; max-width: 600px; width: 90%; border-radius: 1.5rem; border: 1px solid #375FE5; box-shadow: 0 20px 40px rgba(0,0,0,0.5); max-height: 80vh; overflow-y: auto; }
+        .modal__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #2d3a4e; padding-bottom: 0.5rem; }
+        .modal__title { font-size: 1.5rem; font-weight: 600; color: #facc15; }
+        .modal__close { background: none; border: none; color: #94a3b8; font-size: 2rem; cursor: pointer; }
+        .modal__close:hover { color: white; }
+        .modal__content p { margin-bottom: 1rem; color: #cbd5e1; }
+        .modal__content strong { color: #a0b3d9; }
+
         @media (max-width: 700px) {
             .hero h1 { font-size: 3rem; }
             .tagline { font-size: 1.3rem; }
@@ -220,12 +78,229 @@
         }
     </style>
 </head>
-<!-- Script Counter + Trailer YouTube -->
+<body>
+
+<div class="container">
+    <!-- ========== HEADER & NAVIGASI ========== -->
+    <nav>
+        <div class="logo">
+            <!-- ⚠️ GANTI: Pastikan path logo benar -->
+            <img src="../aset/stepediamond-logo.ico" alt="Logo Stepe Diamond">
+            <div class="logo-text">
+                <h1>Stepe Diamond</h1>
+                <p>Founder · Tandur Karsa</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="../utama/">Beranda</a>
+            <a href="../tentang/">Tentang</a>
+            <!-- ⚠️ GANTI: Masukkan link Saweria kamu di href -->
+            <a href="https://saweria.co/stepediamond" target="_blank" class="traktir-btn"><i class="fas fa-mug-hot"></i> Traktir Kopi</a>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <div class="hero">
+        <h1>TANSA</h1>
+        <div class="hero-sub">Tandur Karsa</div>
+        <div class="tagline">Menanam kehendak, <br> menuai imajinasi.</div>
+        <div class="deskripsi">
+            TANSA adalah wadah untuk menanam karya — dari animasi Minecraft hingga cerita fiksi ilmiah.
+        </div>
+        <div class="filosofi">
+            🌱 Tandur = menanam &nbsp; | &nbsp; Karsa = kehendak
+        </div>
+    </div>
+
+    <!-- ========== 1. TRAILER PROJEK (A.A.R.I.A) ========== -->
+    <div class="section-title"><i class="fas fa-video"></i> Trailer Projek — A.A.R.I.A</div>
+    <div class="trailer-embed">
+        <!-- ⚠️ GANTI: Masukkan embed URL video unlisted YouTube trailer A.A.R.I.A -->
+        <iframe src="https://www.youtube.com/embed/XXXXXXXXXXX" title="Trailer A.A.R.I.A" allowfullscreen></iframe>
+    </div>
+    <p style="text-align: center; margin-top: 0.5rem; color: #a0b3d9;">Proyek animasi terbesar yang sedang digarap.</p>
+
+    <!-- ========== 2. ANIMASI POPULER (MAKS 3) ========== -->
+    <div class="section-title"><i class="fas fa-film"></i> Animasi Populer</div>
+    <div class="gallery-grid">
+        <!-- Kartu 1: "Tertangkap" -->
+        <div class="project-card">
+            <div class="gif-placeholder">
+                <!-- ⚠️ GANTI: Path ke GIF "Tertangkap" -->
+                <img src="../aset/img/tertangkap.gif" alt="Cuplikan Tertangkap">
+            </div>
+            <div class="badge">✔️ Rilis 2024</div>
+            <h3>Tertangkap | Animasi Menkrep</h3>
+            <p>Animasi pendek kedua — peningkatan kualitas signifikan. Nuansa misteri dan ketegangan.</p>
+        </div>
+        <!-- Kartu 2: "Gak Fokus" -->
+        <div class="project-card">
+            <div class="gif-placeholder">
+                <!-- ⚠️ GANTI: Path ke GIF "Gak Fokus" -->
+                <img src="../aset/img/gakfokus.gif" alt="Cuplikan Gak Fokus">
+            </div>
+            <div class="badge">✔️ Rilis 2023</div>
+            <h3>Gak Fokus | Animasi Menkrep</h3>
+            <p>Animasi pertama, masih kaku namun menjadi fondasi awal perjalanan.</p>
+        </div>
+        <!-- Kartu 3: Tempat karya populer ke-3 (opsional) -->
+        <!-- Kamu bisa duplikat div .project-card di atas untuk menambah karya ke-3 -->
+    </div>
+
+    <!-- ========== 3. WORK IN PROGRESS (MAKS 7, CAROUSEL) ========== -->
+    <div class="section-title"><i class="fas fa-spinner fa-pulse"></i> Work In Progress</div>
+    <div id="wip-carousel" class="splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                <!-- SLIDE 1: A.A.R.I.A - Project -->
+                <li class="splide__slide">
+                    <div class="wip-card" data-micromodal-trigger="modal-1">
+                        <div class="badge wip-badge">🚧 WIP · Seri Utama</div>
+                        <h3>A.A.R.I.A - Project</h3>
+                        <p>Proyek animasi terbesar yang akan menjadi fondasi sejarah karakter Stepe Diamond.</p>
+                        <div class="read-more"><i class="fas fa-arrow-right"></i> Klik untuk cuplikan</div>
+                    </div>
+                </li>
+                <!-- SLIDE 2: Contoh Proyek Lain -->
+                <li class="splide__slide">
+                    <div class="wip-card" data-micromodal-trigger="modal-2">
+                        <div class="badge wip-badge">📖 WIP · Cerita Pendek</div>
+                        <h3>Jejak di Antara Bintang</h3>
+                        <p>Kisah fiksi ilmiah tentang penjelajah yang tersesat di dimensi tak dikenal.</p>
+                        <div class="read-more"><i class="fas fa-arrow-right"></i> Klik untuk cuplikan</div>
+                    </div>
+                </li>
+                <!-- SLIDE 3: Contoh Proyek Lain -->
+                <li class="splide__slide">
+                    <div class="wip-card" data-micromodal-trigger="modal-3">
+                        <div class="badge wip-badge">🎬 WIP · Animasi Pendek</div>
+                        <h3>Misteri Kampus Tua</h3>
+                        <p>Animasi misteri berlatar kampus dengan sentuhan budaya lokal.</p>
+                        <div class="read-more"><i class="fas fa-arrow-right"></i> Klik untuk cuplikan</div>
+                    </div>
+                </li>
+                <!-- Kamu bisa tambahkan <li class="splide__slide">...</li> lagi sampai maks 7 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- ========== 4. SPESIAL UNTUKMU! ========== -->
+    <div class="section-title"><i class="fas fa-gift"></i> Spesial Untukmu!</div>
+    <div class="trailer-embed">
+        <!-- ⚠️ GANTI: Masukkan embed URL video unlisted YouTube sambutan spesial -->
+        <iframe src="https://www.youtube.com/embed/YYYYYYYYYYY" title="Sambutan Spesial" allowfullscreen></iframe>
+    </div>
+    <p style="text-align: center; margin-top: 0.5rem; color: #a0b3d9;">Terima kasih telah menemukan website ini ✨</p>
+
+    <!-- ========== 5. TEMUKAN KARYA LAINNYA ========== -->
+    <div class="section-title"><i class="fas fa-share-alt"></i> Temukan Karya Lainnya</div>
+    <div class="social-links">
+        <a href="https://bit.ly/m/stepediamond" target="_blank"><i class="fas fa-tree"></i> Linktree</a>
+        <a href="https://www.youtube.com/@stepediamond" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+        <a href="https://discord.com/invite/Z4GR8VxW3u" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+        <a href="https://www.instagram.com/stepe_diamond/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.tiktok.com/@stepediamond" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <p>© 2026 Tandur Karsa — Stepe Diamond. Setiap karya adalah benih.</p>
+        <p style="margin-top: 0.5rem;">👁️ Pengunjung: <span id="visitor-counter">---</span></p>
+        <p>#MenanamKarya</p>
+    </footer>
+</div>
+
+<!-- ========== MODAL POPUP (UNTUK WIP) ========== -->
+<!-- Modal 1: A.A.R.I.A - Project -->
+<div id="modal-1" class="modal" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true">
+            <header class="modal__header">
+                <h2 class="modal__title">A.A.R.I.A - Project</h2>
+                <button class="modal__close" aria-label="Close modal" data-micromodal-close>×</button>
+            </header>
+            <main class="modal__content">
+                <p><strong>Status:</strong> 🚧 Dalam Pengembangan</p>
+                <p><strong>Cuplikan Naskah:</strong></p>
+                <p>"Rasa sakit yang tak bisa dimengerti, rasa senang yang memenuhi diri, rasa marah yang membakar hati, namun... apa makna dibaliknya? jika kamu hanyalah.... kepalsuan... apakah aku... warisan dari sebuah dendam? apakah aku... ini hidup? tapi.... aku merasakannya, yang aku tahu... aku ada disini."</p>
+                <p><strong>Target Rilis:</strong> 2027</p>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Jejak di Antara Bintang -->
+<div id="modal-2" class="modal" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true">
+            <header class="modal__header">
+                <h2 class="modal__title">Jejak di Antara Bintang</h2>
+                <button class="modal__close" aria-label="Close modal" data-micromodal-close>×</button>
+            </header>
+            <main class="modal__content">
+                <p><strong>Status:</strong> 📖 Naskah 60%</p>
+                <p><strong>Cuplikan Cerita:</strong></p>
+                <p>"Langit malam di Planet Kepler-442b tidak pernah sama. Setiap malam, konstelasi bintang bergeser seolah alam semesta sedang menari. Dan di malam ke-317, aku melihatnya: sebuah sinyal yang tidak seharusnya ada di tempat ini..."</p>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 3: Misteri Kampus Tua -->
+<div id="modal-3" class="modal" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true">
+            <header class="modal__header">
+                <h2 class="modal__title">Misteri Kampus Tua</h2>
+                <button class="modal__close" aria-label="Close modal" data-micromodal-close>×</button>
+            </header>
+            <main class="modal__content">
+                <p><strong>Status:</strong> 🎬 Storyboard 30%</p>
+                <p><strong>Sinopsis Singkat:</strong></p>
+                <p>Seorang mahasiswa baru menemukan lorong tersembunyi di perpustakaan kampus yang membawanya ke masa lalu. Animasi pendek dengan sentuhan misteri dan budaya Jawa.</p>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- ========== SCRIPT ========== -->
+<!-- Splide JS (Carousel) -->
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+<!-- Micromodal JS (Popup) -->
+<script src="https://cdn.jsdelivr.net/npm/micromodal@0.4.10/dist/micromodal.min.js"></script>
+<!-- Counter -->
 <script src="../aset/js/counter.js"></script>
+
 <script>
-    // ========== FETCH TRAILER YOUTUBE TERBARU (RSS, TANPA API KEY) ==========
-    async function fetchLatestTrailer() {
-        const channelId = 'UCzTuI20_dPalfFDDC6b3Q5w'; // GANTI dengan Channel ID YouTube Stepe Diamond
+    // ========== 1. INISIALISASI CAROUSEL (SPLIDE) ==========
+    document.addEventListener('DOMContentLoaded', function () {
+        new Splide('#wip-carousel', {
+            type   : 'loop',      // Bisa geser terus
+            perPage: 3,           // Tampilkan 3 kartu sekaligus di desktop
+            perMove: 1,           // Geser 1 kartu per gerakan
+            gap    : '1.5rem',    // Jarak antar kartu
+            pagination: false,    // Sembunyikan titik navigasi (biar bersih)
+            arrows: true,         // Tampilkan panah kanan/kiri
+            breakpoints: {
+                900: { perPage: 2 }, // Tablet: tampilkan 2 kartu
+                600: { perPage: 1 }  // Mobile: tampilkan 1 kartu
+            }
+        }).mount();
+    });
+
+    // ========== 2. INISIALISASI MODAL (MICROMODAL) ==========
+    MicroModal.init({
+        openTrigger: 'data-micromodal-trigger', // Atribut pemicu di elemen kartu
+        closeTrigger: 'data-micromodal-close',  // Atribut tombol close
+        disableScroll: true,                    // Mencegah scroll latar
+        awaitOpenAnimation: true,
+        awaitCloseAnimation: true
+    });
+
+    // ========== 3. FETCH VIDEO "NEW VIDEOS" DARI RSS YOUTUBE ==========
+    async function fetchLatestVideoRSS() {
+        // ⚠️ GANTI: Masukkan Channel ID YouTube kamu (24 karakter, awalan 'UC')
+        const channelId = 'UCXXXXXXXXXXXXXXXXXXXXXX'; 
         const rssUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)}`;
         
         try {
@@ -240,108 +315,24 @@
             const videoId = firstEntry.querySelector("yt\\:videoId").textContent;
             const title = firstEntry.querySelector("title").textContent;
             
-            document.getElementById('latest-trailer').innerHTML = `
-                <iframe src="https://www.youtube.com/embed/${videoId}" 
-                    title="${title}" frameborder="0" allowfullscreen></iframe>
-                <p style="margin-top:0.5rem; font-size:0.9rem;">📺 ${title}</p>
-            `;
+            // Tampilkan di bawah Trailer Projek atau di tempat khusus
+            const container = document.getElementById('latest-video');
+            if (container) {
+                container.innerHTML = `
+                    <div class="trailer-embed">
+                        <iframe src="https://www.youtube.com/embed/${videoId}" title="${title}" allowfullscreen></iframe>
+                    </div>
+                    <p style="text-align:center;">📺 ${title}</p>
+                `;
+            }
         } catch(e) {
-            console.error('Gagal fetch trailer:', e);
-            document.getElementById('latest-trailer').innerHTML = `
-                <p style="color:#facc15;">⚠️ Trailer belum tersedia. <a href="https://www.youtube.com/@stepediamond" target="_blank" style="color:#375FE5;">Kunjungi YouTube</a></p>
-            `;
+            console.error('Gagal fetch video terbaru:', e);
         }
     }
-    fetchLatestTrailer();
+    // Panggil fungsi (opsional, hanya jika kamu mau tampilkan "New Videos")
+    // fetchLatestVideoRSS(); 
+    // (Untuk sekarang saya comment, kamu bisa aktifkan nanti)
 </script>
-<body>
-<div class="container">
-    <nav>
-        <div class="logo">
-            <img src="../aset/stepediamond-logo.ico" alt="Logo Stepe Diamond" class="logo-.img">
-            <div class="logo-text">
-                <h1>Stepe Diamond</h1>
-                <p>Founder · Tandur Karsa</p>
-            </div>
-        </div>
-        <div class="nav-links">
-            <a href="../utama/">Beranda</a>
-            <a href="../tentang/">Tentang</a>
-        </div>
-    </nav>
 
-    <div class="hero">
-        <h1>TANSA</h1>
-        <div class="hero-sub">Tandur Karsa</div>
-        <div class="tagline">Menanam kehendak, <br> menuai imajinasi.</div>
-        <div class="deskripsi">
-            TANSA adalah wadah untuk menanam karya — dari animasi Minecraft hingga cerita fiksi ilmiah. 
-            Setiap proyek adalah benih dari kehendak untuk terus berkarya.
-        </div>
-        <div class="filosofi">
-            🌱 Tandur = menanam &nbsp; | &nbsp; Karsa = kehendak
-        </div>
-    </div>
-
-    <!-- Animasi selesai dengan placeholder GIF -->
-    <div class="section-title"><i class="fas fa-film"></i> Animasi (Mine-imator)</div>
-    <div class="gallery-grid">
-        <div class="project-card">
-            <div class="gif-placeholder">
-                <!-- Ganti src dengan file GIF Anda, misal "tertangkap.gif" -->
-                <img src="gif-placeholder.gif" alt="Cuplikan Tertangkap">
-            </div>
-            <div class="badge">✔️ Rilis 2024</div>
-            <h3>Tertangkap | Animasi Menkrep</h3>
-            <p>Animasi pendek kedua — peningkatan kualitas signifikan. Nuansa misteri dan ketegangan.</p>
-        </div>
-        <div class="project-card">
-            <div class="gif-placeholder">
-                <img src="gif-placeholder.gif" alt="Cuplikan Gak Fokus">
-            </div>
-            <div class="badge">✔️ Rilis 2023</div>
-            <h3>Gak Fokus | Animasi Menkrep</h3>
-            <p>Animasi pertama, masih kaku namun menjadi fondasi awal perjalanan.</p>
-        </div>
-    </div>
-
-   <!-- Work In Progress dengan trailer embed (contoh) -->
-<div class="section-title"><i class="fas fa-spinner fa-pulse"></i> Work In Progress</div>
-<div class="project-card" style="background:#0f172a;">
-    <div class="badge wip">🚧 WIP · Seri Utama</div>
-    <h3>A.A.R.I.A - Project</h3>
-    <p>Proyek animasi terbesar yang sedang digarap. Akan menjadi fondasi sejarah karakter Stepe Diamond.</p>
-    <!-- TEMPAT TRAILER OTOMATIS -->
-    <div id="latest-trailer" class="trailer-embed">
-        <!-- Trailer akan dimuat di sini oleh JavaScript -->
-        <p style="color:#a0b3d9;">Memuat trailer terbaru...</p>
-    </div>
-</div>
-
-    <!-- Cuplikan Cerita -->
-    <div class="section-title"><i class="fas fa-feather-alt"></i> Cuplikan Cerita (Fiksi Ilmiah)</div>
-    <div class="story-box">
-        <i class="fas fa-quote-left" style="font-size: 1.8rem; color:#375FE5; opacity:0.7;"></i>
-        <p style="margin-top: 0.8rem;">"Rasa sakit yang tak bisa dimengerti, rasa senang yang memenuhi diri, rasa marah yang membakar hati, namun... apa makna dibaliknya? jika kamu hanyalah.... kepalsuan... apakah aku... warisan dari sebuah dendam? apakah aku... ini hidup? tapi.... aku merasakannya, yang aku tahu... aku ada disini."</p>
-        <p style="margin-top: 1rem; font-style: normal; font-weight: 500;">— Penggalan dari naskah A.A.R.I.A - Project</p>
-    </div>
-
-    <!-- Sosial Media -->
-    <div class="section-title"><i class="fas fa-share-alt"></i> Temukan Karya Lainnya</div>
-    <div class="social-links">
-        <a href="https://bit.ly/m/stepediamond" target="_blank"><i class="fas fa-tree"></i> Linktree</a>
-        <a href="https://www.youtube.com/@stepediamond" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
-        <a href="https://discord.com/invite/Z4GR8VxW3u" target="_blank"><i class="fab fa-discord"></i> Discord</a>
-        <a href="https://www.instagram.com/stepe_diamond/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-        <a href="https://www.tiktok.com/@stepediamond" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
-        <a href="https://saweria.co/stepediamond" target="_blank"><i class="fas fa-coffee"></i> Saweria</a>
-    </div>
-
-<footer>
-    <p>© 2026 Tandur Karsa — Stepe Diamond. Setiap karya adalah benih.</p>
-    <p style="margin-top: 0.5rem;">👁️ Pengunjung: <span id="visitor-counter">---</span></p>
-    <p>#MenanamKarya</p>
-</footer>
-</div>
 </body>
 </html>
