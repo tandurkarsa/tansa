@@ -220,6 +220,40 @@
         }
     </style>
 </head>
+<!-- Script Counter + Trailer YouTube -->
+<script src="../aset/js/counter.js"></script>
+<script>
+    // ========== FETCH TRAILER YOUTUBE TERBARU (RSS, TANPA API KEY) ==========
+    async function fetchLatestTrailer() {
+        const channelId = 'UCq-FjMZ5GfYECqHweVrBqAg'; // GANTI dengan Channel ID YouTube Stepe Diamond
+        const rssUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)}`;
+        
+        try {
+            const response = await fetch(rssUrl);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(text, "text/xml");
+            const firstEntry = xml.querySelector("entry");
+            
+            if (!firstEntry) throw new Error("Tidak ada video");
+            
+            const videoId = firstEntry.querySelector("yt\\:videoId").textContent;
+            const title = firstEntry.querySelector("title").textContent;
+            
+            document.getElementById('latest-trailer').innerHTML = `
+                <iframe src="https://www.youtube.com/embed/${videoId}" 
+                    title="${title}" frameborder="0" allowfullscreen></iframe>
+                <p style="margin-top:0.5rem; font-size:0.9rem;">📺 ${title}</p>
+            `;
+        } catch(e) {
+            console.error('Gagal fetch trailer:', e);
+            document.getElementById('latest-trailer').innerHTML = `
+                <p style="color:#facc15;">⚠️ Trailer belum tersedia. <a href="https://www.youtube.com/@stepediamond" target="_blank" style="color:#375FE5;">Kunjungi YouTube</a></p>
+            `;
+        }
+    }
+    fetchLatestTrailer();
+</script>
 <body>
 <div class="container">
     <nav>
@@ -271,17 +305,18 @@
         </div>
     </div>
 
-    <!-- Work In Progress dengan trailer embed (contoh) -->
-    <div class="section-title"><i class="fas fa-spinner fa-pulse"></i> Work In Progress</div>
-    <div class="project-card" style="background:#0f172a;">
-        <div class="badge wip">🚧 WIP · Seri Utama</div>
-        <h3>A.A.R.I.A - Project</h3>
-        <p>Proyek animasi terbesar yang sedang digarap. Akan menjadi fondasi sejarah karakter Stepe Diamond.</p>
-        <!-- Contoh embed trailer YouTube (ganti dengan link video Anda) -->
-        <div class="trailer-embed">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder" title="Trailer A.A.R.I.A" allowfullscreen></iframe>
-        </div>
+   <!-- Work In Progress dengan trailer embed (contoh) -->
+<div class="section-title"><i class="fas fa-spinner fa-pulse"></i> Work In Progress</div>
+<div class="project-card" style="background:#0f172a;">
+    <div class="badge wip">🚧 WIP · Seri Utama</div>
+    <h3>A.A.R.I.A - Project</h3>
+    <p>Proyek animasi terbesar yang sedang digarap. Akan menjadi fondasi sejarah karakter Stepe Diamond.</p>
+    <!-- TEMPAT TRAILER OTOMATIS -->
+    <div id="latest-trailer" class="trailer-embed">
+        <!-- Trailer akan dimuat di sini oleh JavaScript -->
+        <p style="color:#a0b3d9;">Memuat trailer terbaru...</p>
     </div>
+</div>
 
     <!-- Cuplikan Cerita -->
     <div class="section-title"><i class="fas fa-feather-alt"></i> Cuplikan Cerita (Fiksi Ilmiah)</div>
@@ -302,29 +337,11 @@
         <a href="https://saweria.co/stepediamond" target="_blank"><i class="fas fa-coffee"></i> Saweria</a>
     </div>
 
-    <footer>
-        <p>© 2026 Tandur Karsa — Stepe Diamond. Setiap karya adalah benih.</p>
-        <p style="margin-top: 0.5rem;">#MenanamKarya</p>
-    </footer>
+<footer>
+    <p>© 2026 Tandur Karsa — Stepe Diamond. Setiap karya adalah benih.</p>
+    <p style="margin-top: 0.5rem;">👁️ Pengunjung: <span id="visitor-counter">---</span></p>
+    <p>#MenanamKarya</p>
+</footer>
 </div>
-async function fetchLatestVideo() {
-    const channelId = '@stepediamond'; // GANTI dengan Channel ID YouTube-mu
-    const apiKey = 'AIzaSyCIoz3Ke_cIBDbcDAYT5wjNh_eI7_BKXx4'; // Dapatkan gratis dari Google Cloud Console
-    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=1`;
-    
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const videoId = data.items[0].id.videoId;
-        document.getElementById('latest-trailer').innerHTML = `
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" 
-            frameborder="0" allowfullscreen></iframe>
-        `;
-    } catch(e) {
-        console.log("Gagal fetch video");
-    }
-}
-fetchLatestVideo();
-<script src="../aset/js/counter.js"></script>
 </body>
 </html>
