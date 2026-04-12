@@ -1,0 +1,31 @@
+backend:
+  name: github
+  repo: tandurkarsa/tandurkarsa.github.io # GANTI dengan username/repo kamu yang benar
+  branch: main # atau master, sesuaikan dengan branch repo-mu
+  base_url: https://tandurkarsa.github.io # Opsional, untuk auth
+
+media_folder: "/aset/img/uploads" # Tempat gambar cerita disimpan
+public_folder: "/tansa/aset/img/uploads"
+
+collections:
+  - name: "cerita"
+    label: "Cerita Fiksi Ilmiah"
+    folder: "_cerita" # Folder tempat file .md disimpan
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Judul Cerita", name: "title", widget: "string" }
+      - { label: "Tanggal Rilis", name: "date", widget: "datetime" }
+      - { label: "Ringkasan", name: "description", widget: "text" }
+      - { label: "Gambar Sampul", name: "cover", widget: "image", required: false }
+      - { label: "Isi Cerita", name: "body", widget: "markdown" }
+      
+  - name: "trailer"
+    label: "Trailer & Video"
+    folder: "_data/trailers"
+    create: true
+    extension: json
+    fields:
+      - { label: "Judul Video", name: "title", widget: "string" }
+      - { label: "ID YouTube", name: "youtube_id", widget: "string" }
+      - { label: "Deskripsi Singkat", name: "description", widget: "text" }

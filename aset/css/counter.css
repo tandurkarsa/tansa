@@ -1,0 +1,9 @@
+#visitor-counter, #gate-counter {
+    font-weight: bold;
+    color: #375FE5;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid #3B3B3B;
+    margin-left: 5px;
+}
